@@ -1,5 +1,5 @@
 from sqlalchemy import String, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
@@ -29,3 +29,5 @@ class User(Base):
         Boolean,
         default=True,
         )
+    
+    chats = relationship('Chat', back_populates='user', cascade='all, delete-orphan')
