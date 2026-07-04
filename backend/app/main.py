@@ -16,10 +16,7 @@ import app.database.models
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Application startup")
-    
-    Base.metadata.create_all(bind=engine)
-    logger.info('Database initialized')
-    
+    logger.info('Database connection established')
     yield
     logger.info("Application shutdown")
 
