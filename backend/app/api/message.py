@@ -19,4 +19,13 @@ router = APIRouter(
 )
 def send_message(chat_id: int, data: MessageCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     service = MessageService(db)
-    return service.send_message(chat_id=chat_id, content= data.content)
+    return service.send_message(chat_id=chat_id, user_id=current_user.id, content=data.content)
+
+
+@router.get(
+    '/{chat_id}/messages',
+    response_model=list[MessageResponse]
+    )
+def get_messages(chat_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    service = MessageService(db)
+    return service.get_messages(chat_id, current_user.id)

@@ -12,10 +12,17 @@ class ChatRepository:
         self.db.refresh(chat)
         return chat
     
+    def update(self, chat: Chat):
+        self.db.commit()
+        self.db.refresh(chat)
+        return chat
+    
     def get_by_id(self, chat_id: int) -> Chat | None:
         return self.db.get(Chat, chat_id)
     
-    def get_all_by_user(self, user_id: int):
-        return self.db.query(Chat).filter(Chat.user_id == user_id).all()
+    def get_user_chats(self, user_id: int):
+        return self.db.query(Chat).filter(Chat.user_id == user_id).order_by(Chat.id.desc()).all()
     
-        
+    def delete(self, chat: Chat):
+        self.db.delete(chat)
+        self.db.commit()
