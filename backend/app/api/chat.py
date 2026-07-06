@@ -17,12 +17,10 @@ router = APIRouter(
 
 @router.post('', response_model=ChatResponse)
 def create_chat(data: ChatCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    repository = ChatRepository(db)
-    service = ChatService(repository)
+    service = ChatService(db)
     return service.create_chat(data, current_user.id)
 
 @router.get('', response_model=list[ChatResponse])
 def get_chats(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    repository = ChatRepository(db)
-    service = ChatService(repository)
+    service = ChatService(db)
     return service.get_user_chats(current_user.id)

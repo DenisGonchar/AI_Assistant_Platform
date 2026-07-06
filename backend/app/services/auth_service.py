@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
 
 from app.auth.jwt import create_access_token
 from app.repositories.user_repository import UserRepository
@@ -6,8 +7,8 @@ from app.schemas.auth import LoginRequest
 from app.security.password import verify_password
 
 class AuthService:
-    def __init__(self, repository: UserRepository):
-        self.repository = repository
+    def __init__(self, db: Session):
+        self.repository = UserRepository(db)
         
     def login(self, data: LoginRequest):
         user = self.repository.get_by_email(data.email)

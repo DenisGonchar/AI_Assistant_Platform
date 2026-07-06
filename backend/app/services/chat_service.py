@@ -1,10 +1,13 @@
+from sqlalchemy.orm import Session
+
 from app.models.chat import Chat
 from app.repositories.chat_repository import ChatRepository
 from app.schemas.chat import ChatCreate
 
 class ChatService:
-    def __init__(self, repository: ChatRepository):
-        self.repository = repository
+    def __init__(self, db: Session):
+        self.repository = ChatRepository(db)
+        
         
     def create_chat(self, data: ChatCreate, user_id: int)->Chat:
         

@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     
+    OLLAMA_URL: str
+    OLLAMA_MODEL: str
+    
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

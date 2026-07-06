@@ -17,6 +17,5 @@ def login(
     data: LoginRequest,
     db: Session = Depends(get_db)
 ):
-    repository = UserRepository(db)
-    service = AuthService(repository)
+    service = AuthService(db)
     return service.login(data)
