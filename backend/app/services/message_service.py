@@ -1,16 +1,16 @@
 from sqlalchemy.orm import Session
 
-from app.ai.manager import AIManager
 from app.models.message import Message
 from app.repositories.message_repository import MessageRepository
 from app.database.enums import MessageRole
 from app.services.chat_service import ChatService
+from app.services.ai_service import AIService
 
 class MessageService:
     def __init__(self, db: Session):
         self.message_repository = MessageRepository(db)
         self.chat_service = ChatService(db)
-        self.ai = AIManager()
+        self.ai = AIService()
         
     def send_message(self, chat_id: int, user_id: int, content:str):
         

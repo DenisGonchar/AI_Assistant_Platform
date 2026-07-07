@@ -42,6 +42,7 @@ class AuthService:
                 detail="Invalid email or password"
             )
             
+        return user
             
     def register(self, user_data: UserCreate)-> User:
         self._validate_registration(user_data)

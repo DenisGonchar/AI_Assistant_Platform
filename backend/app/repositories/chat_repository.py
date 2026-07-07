@@ -12,7 +12,7 @@ class ChatRepository:
         self.db.refresh(chat)
         return chat
     
-    def update(self, chat: Chat):
+    def update(self, chat: Chat) -> Chat:
         self.db.commit()
         self.db.refresh(chat)
         return chat

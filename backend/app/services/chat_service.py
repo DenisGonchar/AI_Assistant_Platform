@@ -24,7 +24,11 @@ class ChatService:
     
     def update_title(self, chat_id: int, user_id: int, title: str):
         chat = self.get_chat(chat_id, user_id)
-        chat.title = title
+        if chat.title != 'New chat':
+            return chat 
+        
+        chat.title = title.strip()[:100]
+        
         return self.repository.update(chat)
     
     def get_user_chats(self, user_id: int) -> list[Chat]:
