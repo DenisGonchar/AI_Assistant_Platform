@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
+from app.core.defaults import DEFAULT_CHAT_TITLE
+
 from app.models.chat import Chat
 from app.repositories.chat_repository import ChatRepository
 from app.schemas.chat import ChatCreate
@@ -13,7 +15,7 @@ class ChatService:
     def create_chat(self, data: ChatCreate, user_id: int)->Chat:
         title =(data.title or '').strip()
         if not title:
-            title = 'New chat'
+            title = DEFAULT_CHAT_TITLE
             
         chat = Chat(
             title=title,
@@ -24,7 +26,7 @@ class ChatService:
     
     def update_title(self, chat_id: int, user_id: int, title: str):
         chat = self.get_chat(chat_id, user_id)
-        if chat.title != 'New chat':
+        if chat.title != DEFAULT_CHAT_TITLE:
             return chat 
         
         chat.title = title.strip()[:100]

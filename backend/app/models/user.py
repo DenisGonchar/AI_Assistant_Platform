@@ -31,3 +31,5 @@ class User(Base):
         )
     
     chats = relationship('Chat', back_populates='user', cascade='all, delete-orphan')
+    
+    memories = relationship('Memory', backref='user', cascade='all, delete-orphan')
