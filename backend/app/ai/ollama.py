@@ -3,7 +3,7 @@ import httpx
 from app.ai.base import BaseAI
 from app.core.config import settings
 
-from backend.app.ai.prompts.assistant_prompt import ASSISTANT_PROMPT
+from app.ai.prompts.assistant_prompt import ASSISTANT_PROMPT
 
 class OllamaAI(BaseAI):
     def __init__(self):

@@ -12,7 +12,7 @@ from app.core.logger import logger
 
 from app.database.connection import engine
 from app.database.base import Base
-import app.database.models  
+import app.models  
 
 
 @asynccontextmanager
