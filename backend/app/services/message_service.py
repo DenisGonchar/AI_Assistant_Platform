@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from app.models.message import Message
 from app.repositories.message_repository import MessageRepository
 from app.database.enums import MessageRole
-from app.ai.memory import MemoryExtractor
 
 from app.services.chat_service import ChatService
 from app.services.ai_service import AIService
@@ -16,9 +15,8 @@ class MessageService:
         self.chat_service = ChatService(db)
         self.memory_service = MemoryService(db)
         
-        self.ai = AIService()
-        
-        self.memory_extractor = MemoryExtractor()
+        self.ai_service = AIService(db)
+
         
     def send_message(self, chat_id: int, user_id: int, content:str):
         
@@ -37,15 +35,12 @@ class MessageService:
         #сохраняем в память длительную информацию
         self.memory_service.save_memory(user_id, content)
         
-        #Строим промпт памяти
-        memory_prompt = self.memory_service.build_prompt(user_id)
-        
         #Получаем историю сообщений
         messages = self.message_repository.get_chat_messages(chat_id)
         
         #Генерируем заголовок чата
         if len(messages) == 1:
-            title = self.ai.generate_title(content)
+            title = self.ai_service.generate_title(content)
             self.chat_service.update_title(chat_id, user_id, title)
         
         history = [
@@ -57,7 +52,7 @@ class MessageService:
         ]
         
         #Генерируем ответ
-        answer = self.ai.generate(history, memory_prompt)
+        answer = self.ai_service.generate(history, user_id)
         
         #сохраняем сообщения модели
         assistant_message = Message(

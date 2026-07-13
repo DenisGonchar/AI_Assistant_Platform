@@ -44,7 +44,7 @@ class MemoryService:
             for memory in memories
         )
         
-        return """
+        return f"""
         Вот что известно о пользователе.
         
         {text}

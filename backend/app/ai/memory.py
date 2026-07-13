@@ -8,22 +8,22 @@ class MemoryExtractor:
         self.ai = AIManager()
         
     def extract(self, message: str) -> list[str]:
-        prompt = f"""
-        {MEMORY_PROMPT}
-        {message}
-        """
+        answer = self.ai.generate(
+            messages=[
+                {
+                    'role': 'user',
+                    'content': message
+                }
+            ],
+            system_prompt=MEMORY_PROMPT
+            )
         
-        answer = self.ai.generate([
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ])
-        
+        print('=== extract ===')
         print(answer)
         
         data = extract_json(answer)
         if not isinstance(data, list):
             return []
         
+        print('data: \n', data)
         return data

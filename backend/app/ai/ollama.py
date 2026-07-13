@@ -4,6 +4,7 @@ from app.ai.base import BaseAI
 from app.core.config import settings
 
 from app.ai.prompts.assistant_prompt import ASSISTANT_PROMPT
+from app.ai.prompts.title_prompt import TITLE_PROMPT
 
 class OllamaAI(BaseAI):
     def __init__(self):
@@ -14,7 +15,12 @@ class OllamaAI(BaseAI):
         payload = {
             'model': self.model,
             'messages': messages,
-            'stream': False    
+            'stream': False,
+            "options": {
+                "temperature": 0.8,
+                "top_p": 0.9,
+                "num_predict": 512,
+            }    
         }
         
         response = httpx.post(
@@ -28,31 +34,32 @@ class OllamaAI(BaseAI):
         return response.json()['message']['content'].strip()
         
         
-    def generate(self, messages: list[dict], memory: str = '') -> str:
+    def generate(self, messages: list[dict], system_prompt: str | None = None) -> str:
         
+        if system_prompt:
+            final_messages = [
+                {
+                    "role": "system",
+                    "content": system_prompt
+                }
+            ]
+        else:
+            final_messages = [
+                {
+                    "role": "system",
+                    "content": ASSISTANT_PROMPT
+                }
+            ]
         
-        if memory:
-            ASSISTANT_PROMPT += f'\n\n{memory}'
-            
-        messages = [
-            {
-                "role": "system",
-                "content": ASSISTANT_PROMPT
-            }
-        ] + messages
+        final_messages.extend(messages)
         
-        return self._chat(messages)
+        return self._chat(final_messages)
     
     def generate_title(self, message: str) -> str:
         messages = [
             {
                 'role': 'system',
-                'content':
-                    "Придумай очень короткое название чата.\n"
-                    "Максимум 4 слова.\n"
-                    "Без кавычек.\n"
-                    "Без точки.\n"
-                    "Ответь только названием.\n\n"
+                'content': TITLE_PROMPT
             },
             {
                 'role': 'user',
