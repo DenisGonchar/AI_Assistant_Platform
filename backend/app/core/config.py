@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     OLLAMA_URL: str
     OLLAMA_MODEL: str
     
+    TAVILY_API_KEY: str
     
     model_config = SettingsConfigDict(
         env_file=".env",

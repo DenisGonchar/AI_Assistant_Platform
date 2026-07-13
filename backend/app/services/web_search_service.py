@@ -13,18 +13,13 @@ class WebSearchService:
         if not results:
             return ''
         
-        lines = [
-            "Ниже приведены актуальные результаты поиска в интернете.",
-            "Используй их только если они помогают ответить на вопрос пользователя.",
-            ''
-        ]
-        
-        for index, result in enumerate(results, start=1):
-            lines.extend([
-                f'{index}. {result['title']}',
-                f'Источник: {result['url']}',
-                f'Описание: {result['content']}',
-                ''
-            ])
+        prompt = "Информация из Интернета:\n\n"
+
+        for result in results:
+            prompt += (
+                f"Источник: {result['url']}\n"
+                f"Заголовок: {result['title']}\n"
+                f"Текст: {result['content']}\n\n"
+            )
             
-        return '\n'.join(lines)
+        return prompt
