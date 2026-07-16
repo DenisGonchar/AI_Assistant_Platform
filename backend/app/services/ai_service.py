@@ -10,7 +10,7 @@ class AIService:
     def __init__(self, db: Session):
         self.ai = AIManager()
         self.memory_service = MemoryService(db)
-        self.web_serch_service = WebSearchService()
+        self.web_search_service = WebSearchService()
         self.decision_service = DecisionService()
         
     def generate(self, history: list[dict], user_id: int) -> str:
@@ -38,7 +38,7 @@ class AIService:
         )
         
         if self.decision_service.need_search(last_message):
-            search_prompt = self.web_serch_service.build_prompt(last_message)
+            search_prompt = self.web_search_service.build_prompt(last_message)
             if search_prompt:
                 messages.append(
                     {

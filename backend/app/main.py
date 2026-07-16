@@ -6,6 +6,7 @@ from app.api.auth import router as auth_router
 from app.api.chat import router as chat_router
 from app.api.message import router as mesasge_router
 from app.api.memory import router as memory_router
+from app.api.speech import router as speech_router
 
 from app.core.config import settings
 from app.core.logger import logger
@@ -34,7 +35,7 @@ app.include_router(auth_router)
 app.include_router(chat_router)
 app.include_router(mesasge_router)
 app.include_router(memory_router)
-
+app.include_router(speech_router)
 
 #-------------------------------------
 @app.get("/")

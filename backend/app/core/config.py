@@ -19,6 +19,14 @@ class Settings(BaseSettings):
     
     TAVILY_API_KEY: str
     
+    WHISPER_MODEL: str
+    WHISPER_DEVICE: str
+    WHISPER_COMPUTE_TYPE: str
+    
+    TEMP_AUDIO_PATH: str
+    
+    MAX_AUDIO_SIZE: float = 25 * 1024 * 1024
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
